@@ -76,7 +76,7 @@ describe.only("Voting", function () {
       const prop2 = "Proposal 2";
       expect(prop2).to.not.equal(prop1);
 
-      // Vérifiez qu'il n'y a pas de proposition à l'indice 2 (ou que le message d'erreur est renvoyé)
+      // Vérifiez qu'il n'y a pas de proposition à l'indice 2 et que le message d'erreur est renvoyé
       await expect(voting.connect(addr1).getOneProposal(2)).to.be.reverted;
       
     });
@@ -166,7 +166,7 @@ describe.only("Voting", function () {
       // addr1 vote pour la proposition Proposal 1
       await voting.connect(addr1).setVote(1);
       
-      // Vérifiez que l'électeur a bien voté
+      // Vérifier que l'électeur a bien voté
       const voter1 = await voting.connect(addr1).getVoter(addr1.address);
       expect(voter1.hasVoted).to.be.true;
       expect(voter1.votedProposalId).to.equal(1);
@@ -321,7 +321,7 @@ describe.only("Voting", function () {
       // Tally votes
       await voting.connect(owner).tallyVotes();
       
-      // Vérifiez les résultats des votes
+      // Vérifier les résultats des votes
       const prop1 = await voting.connect(addr1).getOneProposal(1);
       const prop2 = await voting.connect(addr2).getOneProposal(2);
       
@@ -359,7 +359,7 @@ describe.only("Voting", function () {
       // Tally votes
       await voting.connect(owner).tallyVotes();
       
-      // Vérifiez que la dernière proposition a le plus grand nombre de votes
+      // Vérifie que la dernière proposition a le plus grand nombre de votes
       const winningProposalID = await voting.winningProposalID();
       expect(winningProposalID).to.equal(numProposals);
     });
@@ -372,7 +372,7 @@ describe.only("Voting", function () {
   
       await expect(voting.connect(owner).startProposalsRegistering())
         .to.emit(voting, "WorkflowStatusChange")
-        .withArgs(0, 1); // RegisteringVoters to ProposalsRegistrationStarted
+        .withArgs(0, 1); // RegisteringVoters à ProposalsRegistrationStarted
   
       const status = await voting.workflowStatus();
       expect(status).to.equal(1); // ProposalsRegistrationStarted
@@ -385,7 +385,7 @@ describe.only("Voting", function () {
   
       await expect(voting.connect(owner).endProposalsRegistering())
         .to.emit(voting, "WorkflowStatusChange")
-        .withArgs(1, 2); // ProposalsRegistrationStarted to ProposalsRegistrationEnded
+        .withArgs(1, 2); // ProposalsRegistrationStarted à ProposalsRegistrationEnded
   
       const status = await voting.workflowStatus();
       expect(status).to.equal(2); // ProposalsRegistrationEnded
@@ -468,7 +468,5 @@ describe.only("Voting", function () {
     });
   });
   });
-      
-
-
+ 
 });
