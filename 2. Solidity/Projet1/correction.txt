@@ -1,0 +1,7 @@
+"Pourquoi un ""emit VoterRegistered(msg.sender);"" dans la fonction de vote ? 
+""require(idProposal < proposals.length, ""La proposition n existe pas !"");"" est inutile car accéder à un élément outOfBounds d'un array revert en solidity. 
+  Tu as oublié de checker le workflow status dans la fonction vote. 
+  Sinon c'est vraiment pas mal !
+  Concernant ""VotingPlus"", je pense que ""getProposalsRanking"" est susceptible d'amener des problèmes, le ""<="" dans la première boucle ""for"" devrait être un ""<"".  
+  Projet correct dans l'ensemble.
+3,5/4"
