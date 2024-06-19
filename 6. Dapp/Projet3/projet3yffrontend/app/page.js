@@ -6,7 +6,11 @@ export default function Home() {
   const {isConnected} = useAccount();
   return (
    <>
-      <p>Home sweet home tt</p>
+    {isConnected ? (
+      <Projet3Main />
+      ) :
+      <NotConnected />
+   }
    </>
   );
 }
