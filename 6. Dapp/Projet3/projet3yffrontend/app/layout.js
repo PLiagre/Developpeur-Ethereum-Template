@@ -1,13 +1,10 @@
-import { Inter } from "next/font/google";
-import RainbowKitAndWagmiProvider from "./RainbowKitAndWagmiProvider"
-import Layout from "@/components/shared/Layout"
 import "./globals.css";
 import { Inter as FontSans } from "next/font/google"
-import { Toaster } from "@/components/ui/toaster";
-
 import { cn } from "@/lib/utils"
+import RainbowKitAndWagmiProvider from "./RainbowKitAndWagmiProvider"
 
-const inter = Inter({ subsets: ["latin"] });
+import Layout from "@/components/shared/Layout"
+import { Toaster } from "@/components/ui/toaster";
 
 const fontSans = FontSans({
   subsets: ["latin"],

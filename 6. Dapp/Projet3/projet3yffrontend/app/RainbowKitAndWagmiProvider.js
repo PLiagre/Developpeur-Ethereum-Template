@@ -12,17 +12,19 @@ import {
   sepolia,
 } from 'wagmi/chains';
 
+import { http } from 'wagmi';
+
 import {
   QueryClientProvider,
   QueryClient,
 } from "@tanstack/react-query";
 
 const config = getDefaultConfig({
-    appName: 'Projet 3 yf',
-    projectId: '4ed8cac7c1ed67e0ab135168a0239487',
-    chains: [hardhat, sepolia],
-    ssr: true, // If your dApp uses server side rendering (SSR)
-  });
+  appName: 'Projet 3 yf',
+  projectId: '4ed8cac7c1ed67e0ab135168a0239487',
+  chains: [hardhat, sepolia],
+  ssr: true, // If your dApp uses server side rendering (SSR)
+});
 
 const queryClient = new QueryClient();
 
@@ -31,7 +33,7 @@ const RainbowKitAndWagmiProvider = ({ children }) => {
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider>
-            {children}
+          {children}
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
