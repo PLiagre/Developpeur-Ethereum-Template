@@ -1,5 +1,6 @@
 import AddVoter from "./AddVoter";
 import AddProposal from "./AddProposal";
+import Vote from "./Vote";
 // import Events from "./Events"
 
 import { useState, useEffect } from "react"
@@ -15,6 +16,7 @@ const Projet3Main = () => {
         <>
             <AddVoter />
             <AddProposal/>
+            <Vote/>
         </>
     )
 }
