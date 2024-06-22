@@ -53,7 +53,7 @@ const AddVoter = ({ getEvents }) => {
       setVoterAddress('');
       refetch();
     }
-  }, [isConfirmed])
+  }, [isConfirmed, refetch])
 
   return (
     <section className=" space-y-2">

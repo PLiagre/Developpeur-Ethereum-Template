@@ -19,7 +19,7 @@ const Vote = ({ getEvents }) => {
     useWaitForTransactionReceipt({
       hash,
     })
-
+  console.log(vote);
   const voteConst = async () => {
     if (vote === "" || vote === null) {
       toast({
