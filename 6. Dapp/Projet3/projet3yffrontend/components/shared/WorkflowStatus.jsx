@@ -74,6 +74,9 @@ const WorkflowStatus = () => {
       case 4:
         setBadgeStatus("VotingSessionEnded")
         break;
+      case 5:
+        setBadgeStatus("VotesTallied")
+          break;
       default:
         setBadgeStatus("RegisteringVoters")
         break;
