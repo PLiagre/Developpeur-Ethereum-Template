@@ -74,15 +74,6 @@ const WorkflowStatus = () => {
       case 4:
         setBadgeStatus("VotingSessionEnded")
         break;
-<<<<<<< HEAD
-      case 5:
-        setBadgeStatus("VotesTallied")
-          break;
-=======
-      // case 5:
-      //   setBadgeStatus("VotesTallied")
-      //   break;
->>>>>>> 0ee3526e1ecf33e036d9a8284d931ee61d54ecfe
       default:
         setBadgeStatus("RegisteringVoters")
         break;
@@ -103,7 +94,6 @@ const WorkflowStatus = () => {
         <Button variant="outline" className="bg-lime-400" onClick={() => changeWorkflowStatus('endProposalsRegistering')}>End proposal session</Button>
         <Button variant="outline" className="bg-lime-400" onClick={() => changeWorkflowStatus('startVotingSession')}>Start voting session</Button>
         <Button variant="outline" className="bg-lime-400" onClick={() => changeWorkflowStatus('endVotingSession')}>End voting session</Button>
-        <Button variant="outline" className="bg-lime-800" onClick={() => changeWorkflowStatus('test')}>Tailly vote</Button>
       </div>
     </section >
   )

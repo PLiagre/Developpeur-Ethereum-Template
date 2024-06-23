@@ -10,53 +10,36 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 
-const GetWinningProposal = ({children}) => {
 
-    const { toast } = useToast()
-    const { address } = useAccount();
-    const [winningProposalID, setWinningProposalID] = useState("")
-    const { data: hash, isPending: getIsPending, error, writeContract } = useWriteContract();
-    const { isLoading: isConfirming, isPending: setIsPending, isSuccess: isConfirmed, refetch } =
-      useWaitForTransactionReceipt({
-        hash,
-      })
+// function 
+const GetWinningProposal = ({ children }) => {
+  const { toast } = useToast()
+  const [winningProposalID, setWinningProposalID] = useState("")
+  const [proposalsArray, setProposalsArray] = useState([])
+  const { data: winningProposal } = useReadContract({
+    address: contractAddress,
+    abi: contractAbi,
+    functionName: 'winningProposalID',
+  })
 
-      const getWinningProposal = async () => {
-          try {
-            await writeContract({
-              address: contractAddress,
-              abi: contractAbi,
-              functionName: 'winningProposalID',
-              args: [],
-            });
-            setWinningProposalID('');
-          } catch (error) {
-            console.error(error);
-          }
-      };
+  const getWinningProposal = async () => {
+    if (winningProposal) {
+      setWinningProposalID(winningProposal)
+    }
+  }
 
-      useEffect(() => {
-        if (isConfirmed) {
-          setProposal('');
-          refetch();
-        }
-      }, [isConfirmed])
-
-
-    return (
-        <section className=" space-y-2">
-        <h2 className="font-bold">get Result</h2>
-        <div className="flex space-x-2">
-          <Button onClick={getWinningProposal} variant="outline" className="bg-lime-400" >
+  return (
+    <section className=" space-y-2">
+      <h2 className="font-bold">get Result</h2>
+      <div className="flex space-x-2">
+        <Button onClick={getWinningProposal} variant="outline" className="bg-lime-400" >
           get Winning Proposal ID</Button>
-        <div>The winner is : {winningProposalID}</div>
-        </div>
-  
-        {isConfirming && <div>Waiting for confirmation...</div>}
-        {isConfirmed && <Alert className="bg-lime-400 max-w-max"><AlertTitle>Transaction confirmed.</AlertTitle><AlertDescription>Hash: {hash}</AlertDescription></Alert>}
-      </section>
+        <div className="flex items-center space-x-2">
+          {winningProposalID ? <p>Winning proposal is number {winningProposalID.toString()}</p> : <p>Waiting for tally votes</p>}</div>
+      </div>
+    </section>
 
-    )
+  )
 }
 
 export default GetWinningProposal;

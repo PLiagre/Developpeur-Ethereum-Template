@@ -8,7 +8,7 @@ const Informations = ({ hash, isConfirming, error, isConfirmed }) => {
   return (
     <>
       {hash &&
-        <Alert className="bg-lime-400 text-black mb-2">
+        <Alert className="bg-lime-400 text-black mb-2 max-w-max">
           <AlertTitle>Heads up!</AlertTitle>
           <AlertDescription>
             Transaction Hash: {hash}.
@@ -16,7 +16,7 @@ const Informations = ({ hash, isConfirming, error, isConfirmed }) => {
         </Alert>
       }
       {isConfirming &&
-        <Alert className="bg-orange-400 text-black mb-2">
+        <Alert className="bg-orange-400 text-black mb-2 max-w-max">
           <AlertTitle>Heads up!</AlertTitle>
           <AlertDescription>
             Waiting for confirmation...
@@ -24,7 +24,7 @@ const Informations = ({ hash, isConfirming, error, isConfirmed }) => {
         </Alert>
       }
       {error && (
-        <Alert className="bg-red-600 text-white mb-2">
+        <Alert className="bg-red-600 text-white mb-2 max-w-max">
           <AlertTitle>Error</AlertTitle>
           <AlertDescription>
             Error: {(error).shortMessage || error.message}
@@ -32,7 +32,7 @@ const Informations = ({ hash, isConfirming, error, isConfirmed }) => {
         </Alert>
       )}
       {isConfirmed &&
-        <Alert className="bg-lime-400 text-black mb-2">
+        <Alert className="bg-lime-400 text-black mb-2 max-w-max">
           <AlertTitle>Heads up!</AlertTitle>
           <AlertDescription>
             The transaction has been confirmed.
