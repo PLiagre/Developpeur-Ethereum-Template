@@ -6,12 +6,13 @@ import { contractAddress, contractAbi } from "@/constants";
 
 // UI
 import { useToast } from "../ui/use-toast";
-
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
 import { readContract } from "viem/actions";
 
+
+// function
 const WorkflowStatus = () => {
   const { toast } = useToast()
   const [workflowStatus, setWorkflowStatus] = useState(null)
@@ -27,25 +28,18 @@ const WorkflowStatus = () => {
       hash,
     })
 
+  // get workflowStatus for first time rendering
   useEffect(() => {
     updateBadgeStatus();
   }, [])
 
+  // update status displayed in badge when status change
   useEffect(() => {
-    if (isConfirmed) {
+    if (status || isConfirmed) {
       updateBadgeStatus();
       refetch();
     }
-  }, [isConfirmed, refetch]);
-
-  useEffect(() => {
-    if (status) {
-      setWorkflowStatus(status);
-      updateBadgeStatus();
-    }
-  }, [status]);
-
-
+  }, [status, isConfirmed, refetch]);
 
   const changeWorkflowStatus = async (workflowName) => {
     try {
@@ -58,7 +52,6 @@ const WorkflowStatus = () => {
       console.error(error);
     }
   }
-
 
   const updateBadgeStatus = () => {
     switch (status) {
@@ -79,8 +72,6 @@ const WorkflowStatus = () => {
         break;
     }
   }
-
-
 
   return (
     <section className="space-y-2">

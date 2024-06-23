@@ -2,11 +2,11 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 const Header = () => {
     return (
-        <nav className="navbar">
+        <nav>
             <div className="grow"><p>Projet3YF</p></div>
             <div>
                 <ConnectButton />
-            </div>    
+            </div>
         </nav>
 
     )

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useAccount, useBalance, useReadContract, useWriteContract, useWaitForTransactionReceipt, useSendTransaction } from "wagmi";
 import { contractAddress, contractAbi } from "@/constants";
+import Informations from "./Information";
 
 // UI
 import { useToast } from "../ui/use-toast";
@@ -63,8 +64,7 @@ const AddVoter = ({ getEvents }) => {
         <Button onClick={addVoter} variant="outline" className="bg-lime-400" >
           Add voter</Button>
       </div>
-      {isConfirming && <div>Waiting for confirmation...</div>}
-      {isConfirmed && <Alert className="bg-lime-400 max-w-max"><AlertTitle>Transaction confirmed.</AlertTitle><AlertDescription>Hash: {hash}</AlertDescription></Alert>}
+      <Informations hash={hash} isConfirming={isConfirming} isConfirmed={isConfirmed} error={error} />
     </section>
 
   )

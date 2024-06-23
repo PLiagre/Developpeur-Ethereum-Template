@@ -3,14 +3,13 @@ import Footer from "./Footer";
 
 const Layout = ({ children }) => {
     return (
-        <div className="app">
+        <div>
             <Header />
             <main className="p-10">
                 {children}
             </main>
             <Footer />
         </div>
-
     )
 }
 
