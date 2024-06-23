@@ -3,13 +3,15 @@
 import { useState, useEffect } from "react";
 import { useAccount, useBalance, useReadContract, useWriteContract, useWaitForTransactionReceipt, useSendTransaction } from "wagmi";
 import { contractAddress, contractAbi } from "@/constants";
+import { hardhatClient, publicClient } from "@/utils/client";
+import { parseAbiItem } from "viem";
+import Event from "./Events";
 
 // UI
 import { useToast } from "../ui/use-toast";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
-import { readContract } from "viem/actions";
 
 
 // function
@@ -17,6 +19,7 @@ const WorkflowStatus = () => {
   const { toast } = useToast()
   const [workflowStatus, setWorkflowStatus] = useState(null)
   const [badgeStatus, setBadgeStatus] = useState('')
+  const [events, setEvents] = useState([])
   const { data: status, refetch } = useReadContract({
     address: contractAddress,
     abi: contractAbi,
@@ -31,6 +34,8 @@ const WorkflowStatus = () => {
   // get workflowStatus for first time rendering
   useEffect(() => {
     updateBadgeStatus();
+    getEvents();
+
   }, [])
 
   // update status displayed in badge when status change
@@ -38,6 +43,7 @@ const WorkflowStatus = () => {
     if (status || isConfirmed) {
       updateBadgeStatus();
       refetch();
+      getEvents();
     }
   }, [status, isConfirmed, refetch]);
 
@@ -53,6 +59,7 @@ const WorkflowStatus = () => {
     }
   }
 
+  // add right workflowStatus in badge depending of current status state
   const updateBadgeStatus = () => {
     switch (status) {
       case 1:
@@ -73,6 +80,21 @@ const WorkflowStatus = () => {
     }
   }
 
+  const getEvents = async () => {
+    const workflowStatusChangedLog = await publicClient.getLogs({
+      address: contractAddress,
+      event: parseAbiItem('event WorkflowStatusChange(uint8 previousStatus, uint8 newStatus)'),
+      fromBlock: 0n,
+    })
+    setEvents(workflowStatusChangedLog.map(
+      log => ({
+        oldValue: log.args.previousStatus.toString(),
+        newValue: log.args.newStatus.toString()
+      })
+    ))
+  }
+  console.log(events);
+
   return (
     <section className="space-y-2">
       <div className="flex space-x-2">
@@ -85,6 +107,14 @@ const WorkflowStatus = () => {
         <Button variant="outline" className="bg-lime-400" onClick={() => changeWorkflowStatus('endProposalsRegistering')}>End proposal session</Button>
         <Button variant="outline" className="bg-lime-400" onClick={() => changeWorkflowStatus('startVotingSession')}>Start voting session</Button>
         <Button variant="outline" className="bg-lime-400" onClick={() => changeWorkflowStatus('endVotingSession')}>End voting session</Button>
+      </div>
+      <h3 className="font-bold">Events</h3>
+      <div className="flex flex-col w-full">
+        {events.length > 0 && events.map((event) => {
+          return (
+            <Event event={event} type={"WorkflowStatusChanged"} key={crypto.randomUUID()} />
+          )
+        })}
       </div>
     </section >
   )

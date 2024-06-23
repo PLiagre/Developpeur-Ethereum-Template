@@ -39,6 +39,7 @@ contract Voting is Ownable {
     mapping (address => Voter) voters;
     uint private currentProposalIndex;
     uint public winningProposalID;
+    uint public maxVoteCount;
 
     /*************************************
     *              Events                *
@@ -126,6 +127,7 @@ contract Voting is Ownable {
         Allows whitelisted users to vote, when voting time is active, and if he has'nt already voted
         Proposal ids goes from 1 to 2^256.
         Only whitelisted voters can make a vote
+        Winning proposalID is calculated everytime new vote is set
     */
     /// @param _id The voter's proposal id vote
     function setVote( uint _id) external onlyVoters {
@@ -136,6 +138,11 @@ contract Voting is Ownable {
         voters[msg.sender].votedProposalId = _id;
         voters[msg.sender].hasVoted = true;
         proposalsArray[_id].voteCount++;
+
+        if (proposalsArray[_id].voteCount > maxVoteCount) {
+            winningProposalID = _id;
+            maxVoteCount = proposalsArray[_id].voteCount;
+        }
 
         emit Voted(msg.sender, _id);
     }
@@ -188,8 +195,7 @@ contract Voting is Ownable {
 
 
     /** @notice 
-        Checks if the workflow status is OK, compute the winning proposal from voters, and change the workflow status
-        If there hasn't been any vote, or a tie vote, the last one on the list will be considered as the winning one
+        Checks if the workflow status is OK and change the workflow status
         Only the contract's owner can call this method
     */
  function tallyVotes() external onlyOwner {
@@ -197,38 +203,10 @@ contract Voting is Ownable {
         require(workflowStatus == WorkflowStatus.VotingSessionEnded || workflowStatus == WorkflowStatus.VotesTallied, 
                 "Current status is not voting session ended or votes already being tallied");
 
-        // Initialize the tallying process if it hasn't started yet
-        if (workflowStatus == WorkflowStatus.VotingSessionEnded) {
-            workflowStatus = WorkflowStatus.VotesTallied;
-            emit WorkflowStatusChange(WorkflowStatus.VotingSessionEnded, WorkflowStatus.VotesTallied);
-            currentProposalIndex = 0; // Initialize the index for tallying votes
-        }
-
-        uint _winningProposalId = winningProposalID;
-
-        // Define the number of proposals to process per call to avoid gas limit issues
-        uint step = 10;
-        uint end = currentProposalIndex + step;
-
-        if (end > proposalsArray.length) {
-            end = proposalsArray.length;
-        }
-
-        // Continue tallying votes in steps
-        for (uint256 p = currentProposalIndex; p < end; p++) {
-            if (proposalsArray[p].voteCount > proposalsArray[_winningProposalId].voteCount) {
-                _winningProposalId = p;
-            }
-        }
-
-        // Update the current proposal index for the next step
-        currentProposalIndex = end;
-
-        // Check if all proposals have been processed
-        if (currentProposalIndex >= proposalsArray.length) {
-            // Finished tallying
-            winningProposalID = _winningProposalId;
-            emit WorkflowStatusChange(WorkflowStatus.VotesTallied, WorkflowStatus.VotesTallied);
-        }
+        workflowStatus = WorkflowStatus.VotesTallied;
+        emit WorkflowStatusChange(
+            WorkflowStatus.VotingSessionEnded,
+            WorkflowStatus.VotesTallied
+        );
     }
 }
