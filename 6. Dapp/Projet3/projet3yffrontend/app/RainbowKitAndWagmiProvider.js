@@ -1,19 +1,17 @@
 'use client';
 import '@rainbow-me/rainbowkit/styles.css';
-
 import {
   getDefaultConfig,
   RainbowKitProvider,
 } from '@rainbow-me/rainbowkit';
-
 import { WagmiProvider } from 'wagmi';
+// import { sepolia } from '@/utils/sepolia';
 import {
   hardhat,
   sepolia,
 } from 'wagmi/chains';
 
 import { http } from 'wagmi';
-
 import {
   QueryClientProvider,
   QueryClient,
@@ -22,7 +20,7 @@ import {
 const config = getDefaultConfig({
   appName: 'Projet 3 yf',
   projectId: '4ed8cac7c1ed67e0ab135168a0239487',
-  chains: [hardhat, sepolia],
+  chains: [sepolia, hardhat],
   ssr: true, // If your dApp uses server side rendering (SSR)
 });
 

@@ -8,7 +8,7 @@ const Informations = ({ hash, isConfirming, error, isConfirmed }) => {
   return (
     <>
       {hash &&
-        <Alert className="bg-lime-400 text-black mb-2 max-w-max">
+        <Alert className="bg-lime-400 text-black mb-2 max-w-max" >
           <AlertTitle>Heads up!</AlertTitle>
           <AlertDescription>
             Transaction Hash: {hash}.

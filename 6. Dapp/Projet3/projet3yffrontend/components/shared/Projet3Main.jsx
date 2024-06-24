@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { parseAbiItem } from "viem";
-import { useAccount, useReadContract } from "wagmi"
+import { useAccount, useReadContract, useWaitForTransactionReceipt } from "wagmi"
 import { contractAddress, contractAbi } from "@/constants"
 import { publicClient } from "@/utils/client";
 
@@ -19,29 +19,12 @@ import { Button } from "../ui/button";
 // function
 const Projet3Main = () => {
     const [events, setEvents] = useState([])
-    const [darkMode, setDarkMode] = useState(false);
     const { address } = useAccount()
-
-    const toggleDarkMode = () => {
-        setDarkMode(!darkMode);
-        if (!darkMode) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-    };
-
-    useEffect(() => {
-        const storedDarkMode = localStorage.getItem('darkMode') === 'true';
-        setDarkMode(storedDarkMode);
-        if (storedDarkMode) {
-            document.documentElement.classList.add('dark');
-        }
-    }, []);
-
-    useEffect(() => {
-        localStorage.setItem('darkMode', darkMode);
-    }, [darkMode]);
+    const { data: hash, isSuccess, refetch } = useReadContract({
+        address: contractAddress,
+        abi: contractAbi,
+        functionName: "workflowStatus"
+    })
 
     const getEvents = async () => {
         const workflowStatusChange = await publicClient.getLogs({
@@ -102,18 +85,25 @@ const Projet3Main = () => {
             }
             if (events.length > events.length) {
                 await getEvents();
-
             }
         }
         getAllEvents();
     }, [address])
 
+    const refetchAll = async () => {
+        await getEvents();
+        await refetch();
+    }
+
+    useEffect(() => {
+        if (isSuccess) {
+            refetchAll()
+            getEvents()
+        }
+    }, [isSuccess])
 
     return (
-        <div className={`space-y-5 ${darkMode ? 'dark' : ''}`}>
-            <Button onClick={toggleDarkMode} className="p-2 border rounded">
-                Dark or Light Mode ?
-            </Button>
+        <div className={`space-y-5`}>
             <WorkflowStatus />
             <AddVoter />
             <AddProposal />

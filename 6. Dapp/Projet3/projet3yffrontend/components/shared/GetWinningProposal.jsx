@@ -21,10 +21,10 @@ const GetWinningProposal = ({ children }) => {
     abi: contractAbi,
     functionName: 'winningProposalID',
   })
-
+  console.log(winningProposalID);
   const getWinningProposal = async () => {
     if (winningProposal) {
-      setWinningProposalID(winningProposal)
+      await setWinningProposalID(winningProposal)
     }
   }
 
@@ -35,7 +35,7 @@ const GetWinningProposal = ({ children }) => {
         <Button onClick={getWinningProposal} variant="outline" className="bg-lime-400" >
           get Winning Proposal ID</Button>
         <div className="flex items-center space-x-2">
-          {winningProposalID ? <p>Winning proposal is number {winningProposalID.toString()}</p> : <p>Waiting for tally votes</p>}</div>
+          {winningProposalID ? <p>Winning proposal is number {winningProposal.toString()}</p> : <p>Waiting for tally votes</p>}</div>
       </div>
     </section>
 

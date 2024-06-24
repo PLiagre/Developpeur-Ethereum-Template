@@ -60,25 +60,24 @@ const AddProposal = () => {
   };
 
   return (
-    <section className="space-y-4 p-4 bg-gray-100 rounded-lg shadow-md">
-      <h2 className="font-bold text-2xl mb-4 text-gray-700">Add Proposal</h2>
-      <div className="flex space-x-2 mb-4">
+    <section className="space-y-2">
+      <h2 className="font-bold">Add Proposal</h2>
+      <div className="flex space-x-2">
         <Input
           type="text"
           placeholder="Votre proposition"
           value={proposal}
           onChange={(e) => setProposal(e.target.value)}
-          maxLength={42}
-          className="flex-1 border-2 border-gray-300 p-2 rounded-lg"
+          className="max-w-80 border-2"
         />
-        <Button onClick={addProposal} variant="outline" className="bg-lime-400 text-white rounded-lg p-2">
+        <Button onClick={addProposal} variant="outline" className="bg-lime-400">
           Add Proposal
         </Button>
       </div>
       <Informations hash={hash} isConfirming={isConfirming} isConfirmed={isConfirmed} error={error} />
       <div className="mt-6">
-        <h3 className="font-bold text-xl text-gray-600">Proposals</h3>
-        <ul className="mt-2 space-y-2">
+        <h3 className="font-bold">Proposals</h3>
+        <ul className="mt-2 space-y-2 border-2 p-2 max-w-max">
           {proposals.map((proposal, index) => (
             <li key={index} className="p-4 bg-white rounded-lg shadow-sm border border-gray-200">
               {proposal.description}

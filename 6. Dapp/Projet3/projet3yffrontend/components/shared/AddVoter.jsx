@@ -21,6 +21,7 @@ const AddVoter = ({ getEvents }) => {
       hash,
     })
 
+
   const addVoter = async () => {
     if (voterAddress === "") {
       toast({
@@ -42,7 +43,7 @@ const AddVoter = ({ getEvents }) => {
           functionName: 'addVoter',
           args: [voterAddress],
         });
-        setVoterAddress('');
+        await setVoterAddress('');
       } catch (error) {
         console.error(error);
       }

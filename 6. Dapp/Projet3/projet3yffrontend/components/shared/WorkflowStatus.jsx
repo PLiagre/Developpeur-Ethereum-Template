@@ -30,6 +30,8 @@ const WorkflowStatus = () => {
       hash,
     })
 
+
+
   // get workflowStatus for first time rendering
   useEffect(() => {
     updateBadgeStatus();
