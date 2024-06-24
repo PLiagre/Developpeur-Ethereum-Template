@@ -16,9 +16,7 @@ import Event from "./Events";
 // UI
 import { Button } from "../ui/button";
 
-
-
-
+// function
 const Projet3Main = () => {
     const [events, setEvents] = useState([])
     const [darkMode, setDarkMode] = useState(false);
@@ -95,7 +93,6 @@ const Projet3Main = () => {
         });
 
         setEvents(combinedEvents)
-        console.log(combinedEvents);
     }
 
     useEffect(() => {
